@@ -1,10 +1,13 @@
 package com.example.Dz22.controller;
 
+import com.example.Dz22.model.Faculty;
 import com.example.Dz22.model.Student;
 import com.example.Dz22.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/student")
@@ -14,12 +17,20 @@ public class StudentController {
         this.studentService = studentService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudentInfo(@PathVariable long id){
+    public ResponseEntity<Student> getStudentInfo(@PathVariable Long id){
         Student student = studentService.findStudent(id);
         if(student==null){
             return ResponseEntity.notFound().build();
         }return ResponseEntity.ok(student);
     }
+    @GetMapping()
+    public ResponseEntity<Collection<Student>> findStudentRange(@RequestParam int min, @RequestParam int max){
+      return ResponseEntity.ok(studentService.findByAge(min, max));
+    }
+   @GetMapping("/faculty/{id}")
+    public String findFaculty(@PathVariable long id){
+        return studentService.findStudent(id).getFaculty().getName();
+   }
     @PostMapping
     public Student createStudent(@RequestBody Student student){
         return studentService.addStudent(student);

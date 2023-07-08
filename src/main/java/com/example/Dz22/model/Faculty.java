@@ -1,8 +1,8 @@
 package com.example.Dz22.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 @Entity
 public class Faculty {
@@ -12,9 +12,12 @@ public class Faculty {
     private String name;
     private String color;
 
-    public Faculty(){
+     @OneToMany(mappedBy = "faculty")
+    private Collection<Student> students;
 
+    public Faculty(){
     }
+
     public Faculty(long id, String name, String color){
         this.id = id;
         this.name = name;
@@ -44,6 +47,14 @@ public class Faculty {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
     }
 
     @Override

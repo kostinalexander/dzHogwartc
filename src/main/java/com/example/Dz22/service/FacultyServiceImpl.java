@@ -1,10 +1,12 @@
 package com.example.Dz22.service;
 
 import com.example.Dz22.model.Faculty;
+import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.FacultyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 @Service
@@ -39,4 +41,13 @@ public class FacultyServiceImpl implements FacultyService{
     public void deleteFaculty(long id) {
         facultyRepository.deleteById(id);
     }
+
+    @Override
+    public Collection<Faculty> findByColor(String color) {
+        return facultyRepository.findByColorIgnoreCase(color);
+    }
+
+
+
+
 }

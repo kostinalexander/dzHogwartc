@@ -5,6 +5,7 @@ import com.example.Dz22.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 @Service
@@ -36,5 +37,8 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public void deleteStudent(long id) {
          studentRepository.deleteById(id);
+    }
+    public Collection<Student> findByAge(int min, int max) {
+        return studentRepository.findByAgeBetween(min,max);
     }
 }
