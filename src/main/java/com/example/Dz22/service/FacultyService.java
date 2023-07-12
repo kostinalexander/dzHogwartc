@@ -12,5 +12,7 @@ public interface FacultyService {
     void deleteFaculty(long id);
     Collection<Faculty> findByColor(String color);
 
+    Collection<Student> findStudentsByFacultyId(long id);
+
 
 }

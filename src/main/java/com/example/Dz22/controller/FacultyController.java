@@ -29,10 +29,16 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.findByColor(color));
     }
 
-    @GetMapping("/faculty/id")
-    public Collection<Student> findFaculty(@PathVariable long id) { // метод для нахождения всех студентов факультета
-        return facultyService.findFaculty(id).getStudents();
-    }
+//    @GetMapping("/faculty/{id}")
+//    public Collection<Student> findFaculty(@PathVariable long id) { // метод для нахождения всех студентов факультета
+//        return facultyService.findFaculty(id).getStudents();
+//    }
+@GetMapping("/faculty/id")
+public Collection<Student> findFaculty(@PathVariable long id) { // метод для нахождения всех студентов факультета
+    return facultyService.findStudentsByFacultyId(id);
+}
+
+
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty ){
         return facultyService.addFaculty(faculty);

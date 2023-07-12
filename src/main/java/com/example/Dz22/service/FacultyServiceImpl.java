@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class FacultyServiceImpl implements FacultyService{
@@ -45,6 +46,15 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public Collection<Faculty> findByColor(String color) {
         return facultyRepository.findByColorIgnoreCase(color);
+    }
+    @Override
+    public Collection<Student> findStudentsByFacultyId(long id){
+        Optional<Faculty> facultyOptional = facultyRepository.findById(id);
+        if (facultyOptional.isPresent()) {
+            Faculty faculty = facultyOptional.get();
+            return faculty.getStudents();
+        }
+        return null;
     }
 
 
