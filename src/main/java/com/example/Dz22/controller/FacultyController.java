@@ -2,7 +2,9 @@ package com.example.Dz22.controller;
 
 import com.example.Dz22.model.Faculty;
 import com.example.Dz22.model.Student;
+import com.example.Dz22.repository.FacultyRepository;
 import com.example.Dz22.service.FacultyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("faculty")
+@RequestMapping("/faculty")
 public class FacultyController {
 
+
     private final FacultyService facultyService;
+
+    @Autowired
     public  FacultyController(FacultyService facultyService){
         this.facultyService = facultyService;
     }
+
     @GetMapping("{id}")
     public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id){
         Faculty faculty = facultyService.findFaculty(id);
@@ -33,7 +39,7 @@ public class FacultyController {
 //    public Collection<Student> findFaculty(@PathVariable long id) { // метод для нахождения всех студентов факультета
 //        return facultyService.findFaculty(id).getStudents();
 //    }
-@GetMapping("/faculty/id")
+@GetMapping("/faculty/{id}")
 public Collection<Student> findFaculty(@PathVariable long id) { // метод для нахождения всех студентов факультета
     return facultyService.findStudentsByFacultyId(id);
 }

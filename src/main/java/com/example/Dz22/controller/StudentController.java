@@ -28,16 +28,9 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-
-    private final StudentRepository studentRepository;
-
-    private final FacultyRepository facultyRepository;
-
-
-    public StudentController(StudentService studentService, StudentRepository studentRepository, FacultyRepository facultyRepository) {
+    @Autowired
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.studentRepository = studentRepository;
-        this.facultyRepository = facultyRepository;
     }
 
     @GetMapping("{id}")
