@@ -7,6 +7,7 @@ import com.example.Dz22.repository.AvatarRepository;
 import com.example.Dz22.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -67,6 +69,7 @@ public class StudentServiceImpl implements StudentService{
     public Collection<Student> findByAge(int min, int max) {
         return studentRepository.findByAgeBetween(min,max);
     }
+
     @Override
     public Avatar findAvatar(long studentId) {
         return avatarRepository.findByStudentId(studentId).orElseThrow();
@@ -94,6 +97,27 @@ public class StudentServiceImpl implements StudentService{
         avatar.setData(file.getBytes());
 
         avatarRepository.save(avatar);
+    }
+
+    @Override
+    public Integer countAllStudents() {
+        return studentRepository.countStudentsAll();
+    }
+
+    @Override
+    public Integer AvgAgeStudent() {
+        return studentRepository.avgAgeStudent();
+    }
+
+    @Override
+    public List<Student> fiveLastStudents() {
+        return studentRepository.fiveLastStudents();
+    }
+
+    @Override
+    public List<Avatar> allAvatars(Integer pageNumber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber-1,pageSize);
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 
     private String getExtension(String fileName) {
