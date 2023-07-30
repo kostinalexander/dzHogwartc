@@ -5,6 +5,8 @@ import com.example.Dz22.model.Faculty;
 import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.AvatarRepository;
 import com.example.Dz22.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -35,21 +37,28 @@ public class StudentServiceImpl implements StudentService{
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
     }
+    Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
 
     @Override
     public Student addStudent(Student student) {
-       return studentRepository.save(student);
+        logger.info("Request add student");
+        studentRepository.save(student);
+        logger.info("Student is created - "+ student);
+        return student;
     }
 
     @Override
     public Student findStudent(long id) {
+        logger.info("Request find student by id");
         return studentRepository.findById(id).get();
     }
     public Faculty findFacultyByStudentId(Long studentId) {
+        logger.info("Request find faculty student by ID ");
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
+        logger.info("Student by ID  - "+ studentOptional.get());
             return student.getFaculty();
         }
         return null;
@@ -57,21 +66,28 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Student editStudent( Student student) {
-        
+        logger.info("Request edit student");
         studentRepository.save(student);
+        logger.info("Student edition"+ student);
         return student;
     }
 
     @Override
     public void deleteStudent(long id) {
+        logger.info("Request delete student");
          studentRepository.deleteById(id);
+         logger.info("Student with id "+ id + "deleted");
     }
     public Collection<Student> findByAge(int min, int max) {
+        logger.info("Request students avg age");
+        logger.info("Students > "+ min + "< "+ max + "this is "+ studentRepository.findByAgeBetween(min, max));
         return studentRepository.findByAgeBetween(min,max);
     }
 
     @Override
     public Avatar findAvatar(long studentId) {
+        logger.info("Request find Avatar students");
+        logger.info("Students avatar is - "+ avatarRepository.findByStudentId(studentId).orElseThrow());
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
@@ -101,26 +117,33 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Integer countAllStudents() {
+        logger.info("Request count all students");
+        logger.info("All students in swagger ");
         return studentRepository.countStudentsAll();
     }
 
     @Override
     public Integer AvgAgeStudent() {
+        logger.info("Request avg age stundets");
+        logger.info("student found");
         return studentRepository.avgAgeStudent();
     }
 
     @Override
     public List<Student> fiveLastStudents() {
+        logger.info("Request five last students ");
         return studentRepository.fiveLastStudents();
     }
 
     @Override
     public List<Avatar> allAvatars(Integer pageNumber, Integer pageSize) {
+        logger.info("Request all avatars students");
         PageRequest pageRequest = PageRequest.of(pageNumber-1,pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
     private String getExtension(String fileName) {
+        logger.info("Request get extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 

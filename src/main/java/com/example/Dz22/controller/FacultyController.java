@@ -5,10 +5,14 @@ import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.FacultyRepository;
 import com.example.Dz22.service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Collection;
 
 @RestController
@@ -19,7 +23,7 @@ public class FacultyController {
     private final FacultyService facultyService;
 
     @Autowired
-    public  FacultyController(FacultyService facultyService){
+    public  FacultyController( FacultyService facultyService){
         this.facultyService = facultyService;
     }
 
@@ -49,8 +53,8 @@ public Collection<Student> findFaculty(@PathVariable long id) { // метод д
     public Faculty createFaculty(@RequestBody Faculty faculty ){
         return facultyService.addFaculty(faculty);
     }
-    @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@PathVariable Long id, @RequestBody Faculty faculty){
+    @PutMapping("{id}")
+    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty,@PathVariable Long id)  {
         Faculty foundFaculty = facultyService.editFaculty(faculty);
         if(foundFaculty==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

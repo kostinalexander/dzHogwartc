@@ -3,6 +3,7 @@ package com.example.Dz22.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,6 +15,7 @@ public class Faculty {
     private  long id;
     private String name;
     private String color;
+
 
     @OneToMany(mappedBy = "faculty")
     private Collection<Student> students;
