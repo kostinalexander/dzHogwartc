@@ -64,4 +64,5 @@ public class AvatarController {
     public void allAvatars(@RequestParam("page")Integer pageNumber, @RequestParam("size")Integer pageSize){
         studentService.allAvatars(pageNumber,pageSize);
     }
+
 }
