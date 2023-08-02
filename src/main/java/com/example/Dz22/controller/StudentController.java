@@ -1,9 +1,7 @@
 package com.example.Dz22.controller;
 
 import com.example.Dz22.model.Avatar;
-import com.example.Dz22.model.Faculty;
 import com.example.Dz22.model.Student;
-import com.example.Dz22.repository.FacultyRepository;
 import com.example.Dz22.repository.StudentRepository;
 import com.example.Dz22.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +18,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
 
+    private final StudentRepository studentRepository;
+
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, StudentRepository studentRepository) {
         this.studentService = studentService;
+        this.studentRepository = studentRepository;
     }
 
     @GetMapping("{id}")
@@ -102,6 +103,18 @@ public class StudentController {
             is.transferTo(os);
         }
     }
+    @GetMapping("/WithA")
+    public List<Student> studentsWithA(){
+        List<Student> students = studentRepository.findAll().stream().filter(student -> student.getName().startsWith("A")).collect(Collectors.toList());
+        return students;
+    }
+
+    @GetMapping("AvgAge")
+    public Double studentAvgAge(){
+        DoubleSummaryStatistics avg = studentRepository.findAll().stream().mapToDouble(Student:: getAge).summaryStatistics();
+       return avg.getAverage();
+    }
+
 
 
 
