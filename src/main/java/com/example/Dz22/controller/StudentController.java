@@ -105,14 +105,12 @@ public class StudentController {
     }
     @GetMapping("/WithA")
     public List<Student> studentsWithA(){
-        List<Student> students = studentRepository.findAll().stream().filter(student -> student.getName().startsWith("A")).collect(Collectors.toList());
-        return students;
+       return studentService.studentsWithA();
     }
 
     @GetMapping("AvgAge")
     public Double studentAvgAge(){
-        DoubleSummaryStatistics avg = studentRepository.findAll().stream().mapToDouble(Student:: getAge).summaryStatistics();
-       return avg.getAverage();
+        return studentService.studentAvgAge();
     }
 
 

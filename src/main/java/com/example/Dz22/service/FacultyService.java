@@ -16,5 +16,10 @@ public interface FacultyService {
 
     Collection<Student> findStudentsByFacultyId(long id);
 
+    public String longNameFaculty();
+    public int example();
+
+
+
 
 }

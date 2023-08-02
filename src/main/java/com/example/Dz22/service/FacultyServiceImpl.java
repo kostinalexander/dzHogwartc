@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService{
@@ -69,6 +71,18 @@ public class FacultyServiceImpl implements FacultyService{
             return faculty.getStudents();
         }
         return null;
+    }
+
+    @Override
+    public String longNameFaculty() {
+        Optional<Faculty> names =  facultyRepository.findAll().stream().min(Comparator.comparing(Faculty::getName));
+        return names.get().getName();
+    }
+
+    @Override
+    public int example() {
+        int sum1 = Stream.iterate(1, a -> a + 1).parallel().limit(1_000_000).reduce(0, Integer::sum);
+        return sum1;
     }
 
 

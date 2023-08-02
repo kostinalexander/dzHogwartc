@@ -69,14 +69,12 @@ public Collection<Student> findFaculty(@PathVariable long id) { // метод д
     }
     @GetMapping("/veryLongName")
     public String longNameFaculty(){
-       Optional<Faculty> names =  facultyRepository.findAll().stream().min(Comparator.comparing(Faculty::getName));
-       return names.get().getName();
+      return facultyService.longNameFaculty();
     }
 
     @GetMapping("/exampleTask")
     public int example(){
-         int sum1 = Stream.iterate(1, a -> a + 1).parallel().limit(1_000_000).reduce(0, Integer::sum);
-        return sum1;
+         return facultyService.example();
         // Задание 4, как я понял, чтобы работало быстрее надо сделать стрим парарлельным
     }
 }

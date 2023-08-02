@@ -25,4 +25,8 @@ public interface StudentService {
     List<Student> fiveLastStudents();
 
     List<Avatar> allAvatars(Integer pageNumber, Integer pageSize);
+
+    public List<Student> studentsWithA();
+
+    public Double studentAvgAge();
 }
