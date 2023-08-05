@@ -112,6 +112,34 @@ public class StudentController {
     public Double studentAvgAge(){
         return studentService.studentAvgAge();
     }
+    @GetMapping("ThreadStudent")
+    public void threadStudents(){
+        studentService.studentsThread(0);
+        studentService.studentsThread(1);
+        Thread thread1 = new Thread(()->{
+            studentService.studentsThread(2);
+            studentService.studentsThread(3);
+        });thread1.start();
+        Thread thread2 = new Thread(()->{
+            studentService.studentsThread(4);
+            studentService.studentsThread(5);
+        });thread2.start();
+    }
+    @GetMapping("ThreadStudent2")
+    public  void threadStudents2(){
+        studentService.studentsThread2(0);
+        studentService.studentsThread2(1);
+        Thread thread1 = new Thread(()->{
+            studentService.studentsThread2(2);
+            studentService.studentsThread2(3);
+        });thread1.start();
+        thread1.interrupt();
+        Thread thread2 = new Thread(()->{
+            studentService.studentsThread2(4);
+            studentService.studentsThread2(5);
+        });thread2.start();
+        thread2.interrupt();
+    }
 
 
 
