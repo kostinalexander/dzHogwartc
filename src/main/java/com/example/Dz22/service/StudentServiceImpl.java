@@ -166,24 +166,9 @@ public class StudentServiceImpl implements StudentService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-    @Override
-    public void studentsThread(int num) {
-        for (int i = 0; i <= 5; i++) {
-            if (num == i)
-                System.out.println(studentRepository.findAll().get(i).getName());
-        }
-
-    }
-
-    @Override
-    public synchronized void studentsThread2(int num) {
-            for (int i = 0; i <= 5; i++) {
-                if (num == i) {
-                    System.out.println(studentRepository.findAll().get(i).getName());
-                }
-            }
 
 
-    }
+
+
 
 }
