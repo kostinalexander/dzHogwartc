@@ -20,8 +20,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -140,6 +142,18 @@ public class StudentServiceImpl implements StudentService{
         logger.info("Request all avatars students");
         PageRequest pageRequest = PageRequest.of(pageNumber-1,pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
+    }
+
+    @Override
+    public List<Student> studentsWithA() {
+        List<Student> students = studentRepository.findAll().stream().filter(student -> student.getName().startsWith("A")).collect(Collectors.toList());
+        return students;
+    }
+
+    @Override
+    public Double studentAvgAge() {
+        DoubleSummaryStatistics avg = studentRepository.findAll().stream().mapToDouble(Student:: getAge).summaryStatistics();
+        return avg.getAverage();
     }
 
     private String getExtension(String fileName) {
