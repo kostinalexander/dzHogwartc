@@ -29,4 +29,8 @@ public interface StudentService {
     public List<Student> studentsWithA();
 
     public Double studentAvgAge();
+
+    public void studentThread(int num);
+
+    public void studentsThread2(int num);
 }
