@@ -5,6 +5,8 @@ import com.example.Dz22.model.Faculty;
 import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.AvatarRepository;
 import com.example.Dz22.repository.StudentRepository;
+import liquibase.pro.packaged.O;
+import liquibase.sdk.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
@@ -39,6 +41,7 @@ public class StudentServiceImpl implements StudentService{
         this.studentRepository = studentRepository;
         this.avatarRepository = avatarRepository;
     }
+
     Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
 
@@ -46,7 +49,7 @@ public class StudentServiceImpl implements StudentService{
     public Student addStudent(Student student) {
         logger.info("Request add student");
         studentRepository.save(student);
-        logger.info("Student is created - "+ student);
+        logger.info("Student is created - " + student);
         return student;
     }
 
@@ -55,48 +58,51 @@ public class StudentServiceImpl implements StudentService{
         logger.info("Request find student by id");
         return studentRepository.findById(id).get();
     }
+
     public Faculty findFacultyByStudentId(Long studentId) {
         logger.info("Request find faculty student by ID ");
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-        logger.info("Student by ID  - "+ studentOptional.get());
+            logger.info("Student by ID  - " + studentOptional.get());
             return student.getFaculty();
         }
         return null;
     }
 
     @Override
-    public Student editStudent( Student student) {
+    public Student editStudent(Student student) {
         logger.info("Request edit student");
         studentRepository.save(student);
-        logger.info("Student edition"+ student);
+        logger.info("Student edition" + student);
         return student;
     }
 
     @Override
     public void deleteStudent(long id) {
         logger.info("Request delete student");
-         studentRepository.deleteById(id);
-         logger.info("Student with id "+ id + "deleted");
+        studentRepository.deleteById(id);
+        logger.info("Student with id " + id + "deleted");
     }
+
     public Collection<Student> findByAge(int min, int max) {
         logger.info("Request students avg age");
-        logger.info("Students > "+ min + "< "+ max + "this is "+ studentRepository.findByAgeBetween(min, max));
-        return studentRepository.findByAgeBetween(min,max);
+        logger.info("Students > " + min + "< " + max + "this is " + studentRepository.findByAgeBetween(min, max));
+        return studentRepository.findByAgeBetween(min, max);
     }
 
     @Override
     public Avatar findAvatar(long studentId) {
         logger.info("Request find Avatar students");
-        logger.info("Students avatar is - "+ avatarRepository.findByStudentId(studentId).orElseThrow());
+        logger.info("Students avatar is - " + avatarRepository.findByStudentId(studentId).orElseThrow());
         return avatarRepository.findByStudentId(studentId).orElseThrow();
     }
+
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
         Student student = findStudent(studentId);
 
 
-        Path filePath = Path.of(avatarsDir, studentId + "."  + getExtension(file.getOriginalFilename()));
+        Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -140,7 +146,7 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public List<Avatar> allAvatars(Integer pageNumber, Integer pageSize) {
         logger.info("Request all avatars students");
-        PageRequest pageRequest = PageRequest.of(pageNumber-1,pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
@@ -152,7 +158,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Double studentAvgAge() {
-        DoubleSummaryStatistics avg = studentRepository.findAll().stream().mapToDouble(Student:: getAge).summaryStatistics();
+        DoubleSummaryStatistics avg = studentRepository.findAll().stream().mapToDouble(Student::getAge).summaryStatistics();
         return avg.getAverage();
     }
 
@@ -161,5 +167,39 @@ public class StudentServiceImpl implements StudentService{
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
+    @Override
+    public void studentThread() {
+        System.out.println(studentRepository.findAll().get(0).getName());
+        System.out.println(studentRepository.findAll().get(1).getName());
+        Thread thread1 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(2).getName());
+            System.out.println(studentRepository.findAll().get(3).getName());
+        });thread1.start();
+        Thread thread2 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(4).getName());
+            System.out.println(studentRepository.findAll().get(5).getName());
+        });thread2.start();
+        }
+
+    @Override
+    public synchronized void studentsThread2(){
+        System.out.println(studentRepository.findAll().get(0).getName());
+        System.out.println(studentRepository.findAll().get(1).getName());
+        Thread thread1 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(2).getName());
+            System.out.println(studentRepository.findAll().get(3).getName());
+        });thread1.start();
+        Thread thread2 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(4).getName());
+            System.out.println(studentRepository.findAll().get(5).getName());
+        });thread2.start();
+
+        }
 
 }
+
+
+
+
+
+

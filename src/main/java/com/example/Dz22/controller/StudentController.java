@@ -4,6 +4,7 @@ import com.example.Dz22.model.Avatar;
 import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.StudentRepository;
 import com.example.Dz22.service.StudentService;
+import com.example.Dz22.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/student")
@@ -28,10 +28,13 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
 
+
+
     @Autowired
-    public StudentController(StudentService studentService, StudentRepository studentRepository) {
+    public StudentController(StudentService studentService, StudentRepository studentRepository ) {
         this.studentService = studentService;
         this.studentRepository = studentRepository;
+
     }
 
     @GetMapping("{id}")
@@ -112,6 +115,20 @@ public class StudentController {
     public Double studentAvgAge(){
         return studentService.studentAvgAge();
     }
+
+    @GetMapping("ThreadStudent")
+    public  void threadStudents(){
+      studentService.studentThread();
+    }
+
+    @GetMapping("ThreadStudent2")
+    public  void threadStudents2(){
+        studentService.studentsThread2();
+    }
+
+
+
+
 
 
 
