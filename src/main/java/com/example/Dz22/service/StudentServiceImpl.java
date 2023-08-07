@@ -182,7 +182,9 @@ public class StudentServiceImpl implements StudentService {
         }
 
     @Override
-    public synchronized void studentsThread2(){
+    public  void studentsThread2(){
+
+
         print(studentRepository.findAll().get(0).getName());
         print(studentRepository.findAll().get(1).getName());
         Thread thread1 = new Thread(()->{
@@ -196,9 +198,10 @@ public class StudentServiceImpl implements StudentService {
 
         }
 
-        public synchronized void print(String o){
-            System.out.println(o);
-        }
+        public  void print(Object o){
+        synchronized (this){
+            System.out.println(o.toString());
+        }}
 
 }
 

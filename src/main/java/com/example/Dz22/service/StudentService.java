@@ -30,7 +30,7 @@ public interface StudentService {
 
     public Double studentAvgAge();
 
-    public void studentThread(int num);
+    public void studentThread();
 
-    public void studentsThread2(int num);
+    public  void studentsThread2();
 }
