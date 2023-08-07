@@ -4,6 +4,7 @@ import com.example.Dz22.model.Avatar;
 import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.StudentRepository;
 import com.example.Dz22.service.StudentService;
+import com.example.Dz22.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/student")
@@ -28,10 +28,13 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
 
+
+
     @Autowired
-    public StudentController(StudentService studentService, StudentRepository studentRepository) {
+    public StudentController(StudentService studentService, StudentRepository studentRepository ) {
         this.studentService = studentService;
         this.studentRepository = studentRepository;
+
     }
 
     @GetMapping("{id}")
@@ -115,34 +118,12 @@ public class StudentController {
 
     @GetMapping("ThreadStudent")
     public  void threadStudents(){
-        studentService.studentThread(0);
-        studentService.studentThread(1);
-        Thread thread1 = new Thread(()->{
-            studentService.studentThread(2);
-            studentService.studentThread(3);
-        });thread1.start();
-        thread1.interrupt();
-        Thread thread2 = new Thread(()->{
-            studentService.studentThread(4);
-            studentService.studentThread(5);
-        });thread2.start();
-        thread2.interrupt();
+      studentService.studentThread();
     }
 
     @GetMapping("ThreadStudent2")
     public  void threadStudents2(){
-        studentService.studentsThread2(0);
-        studentService.studentsThread2(1);
-        Thread thread1 = new Thread(()->{
-            studentService.studentsThread2(2);
-            studentService.studentsThread2(3);
-        });thread1.start();
-        thread1.interrupt();
-        Thread thread2 = new Thread(()->{
-            studentService.studentsThread2(4);
-            studentService.studentsThread2(5);
-        });thread2.start();
-        thread2.interrupt();
+        studentService.studentsThread2();
     }
 
 

@@ -6,6 +6,7 @@ import com.example.Dz22.model.Student;
 import com.example.Dz22.repository.AvatarRepository;
 import com.example.Dz22.repository.StudentRepository;
 import liquibase.pro.packaged.O;
+import liquibase.sdk.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,23 +168,38 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void studentThread(int num) {
-        for (int i = 0; i <=5 ; i++) {
-            if(i==num)
-            System.out.println(studentRepository.findAll().get(i).getName());
+    public void studentThread() {
+        System.out.println(studentRepository.findAll().get(0).getName());
+        System.out.println(studentRepository.findAll().get(1).getName());
+        Thread thread1 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(2).getName());
+            System.out.println(studentRepository.findAll().get(3).getName());
+        });thread1.start();
+        Thread thread2 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(4).getName());
+            System.out.println(studentRepository.findAll().get(5).getName());
+        });thread2.start();
         }
-    }
+
     @Override
-    public synchronized void studentsThread2(int num){
-        for (int i = 0; i <=5 ; i++) {
-            if(i==num)
-                System.out.println(studentRepository.findAll().get(i).getName());
+    public synchronized void studentsThread2(){
+        System.out.println(studentRepository.findAll().get(0).getName());
+        System.out.println(studentRepository.findAll().get(1).getName());
+        Thread thread1 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(2).getName());
+            System.out.println(studentRepository.findAll().get(3).getName());
+        });thread1.start();
+        Thread thread2 = new Thread(()->{
+            System.out.println(studentRepository.findAll().get(4).getName());
+            System.out.println(studentRepository.findAll().get(5).getName());
+        });thread2.start();
+
         }
-    }
-
-
-
-
-
 
 }
+
+
+
+
+
+
