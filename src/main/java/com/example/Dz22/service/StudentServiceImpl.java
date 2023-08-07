@@ -183,17 +183,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public synchronized void studentsThread2(){
-        System.out.println(studentRepository.findAll().get(0).getName());
-        System.out.println(studentRepository.findAll().get(1).getName());
+        print(studentRepository.findAll().get(0).getName());
+        print(studentRepository.findAll().get(1).getName());
         Thread thread1 = new Thread(()->{
-            System.out.println(studentRepository.findAll().get(2).getName());
-            System.out.println(studentRepository.findAll().get(3).getName());
+            print(studentRepository.findAll().get(2).getName());
+            print(studentRepository.findAll().get(3).getName());
         });thread1.start();
         Thread thread2 = new Thread(()->{
-            System.out.println(studentRepository.findAll().get(4).getName());
-            System.out.println(studentRepository.findAll().get(5).getName());
+            print(studentRepository.findAll().get(4).getName());
+            print(studentRepository.findAll().get(5).getName());
         });thread2.start();
 
+        }
+
+        public synchronized void print(String o){
+            System.out.println(o);
         }
 
 }

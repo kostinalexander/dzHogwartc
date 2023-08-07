@@ -30,10 +30,12 @@ public class StudentController {
 
 
 
+
     @Autowired
-    public StudentController(StudentService studentService, StudentRepository studentRepository ) {
+    public StudentController(StudentService studentService, StudentRepository studentRepository) {
         this.studentService = studentService;
         this.studentRepository = studentRepository;
+
 
     }
 
